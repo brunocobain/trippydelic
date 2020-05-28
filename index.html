@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet"> 
 <link rel="stylesheet" href="style.css">
@@ -16,11 +18,24 @@
 <body >
 
 
-    <!-- Tracks used in this music/audio player application are free to use. I downloaded them from Soundcloud and NCS websites. I am not the owner of these tracks. -->
+
 
 
     <video autoplay muted loop id="myVideo">
       </video>
+
+
+
+
+
+      <div class="contacts-container">
+          <div class="contacts">
+                <a id="trigger">Get in Touch</a>
+                <a class="contactbtn "  id="wp" href="https://wa.me/351917405431"><i class="fab fa-whatsapp "></i></a>
+                <a class="contactbtn "  id="fb" href="https://www.facebook.com/trippydelic789"><i class="fab fa-facebook-f"></i></a>
+                <a class="contactbtn "  id="sc" href="https://soundcloud.com/trippydelic"><i class="fab fa-soundcloud"></i></a>  
+          </div>
+      </div>
       
 
 
@@ -83,9 +98,11 @@ if (window.screen.width > 720) {
     video.src = 'video/mobilehigh.mp4';
 }
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script>
+$("body").on("click","#trigger",function(e){
+$(".contacts-container").toggleClass("pullout");
+} );
+</script>
 <script type="text/javascript" src="script.js"></script>
 </body>
 </html>

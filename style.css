@@ -25,6 +25,65 @@ body
 }
 
 
+.contacts-container {
+    position: fixed;
+    right: 0px;
+    top: 100px;
+    width: auto;
+    height: 100px;
+    z-index: 20;
+    font-size: 30px;
+    color: white;
+    transition: 0.2s ease all;
+}
+
+.contacts {
+    padding: 33px 33px 33px 33px ;
+    background-color: #333333;
+    border-top-left-radius: 15px !important;
+    border-bottom-left-radius: 15px !important;
+}
+
+.contacts .row span{
+    padding-right: 33px;
+}
+
+.contactbtn {
+    background-color: #333333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.2s ease all;
+}
+
+.contactbtn:hover {
+    background-color: #d6d6de;
+
+}
+
+#trigger {
+    padding-right: 100px;
+    cursor: pointer;
+}
+
+#wp {
+    padding: 15px 19px;
+}
+
+#fb {
+    padding: 15px 23px;
+}
+
+#sc {
+    padding: 15px 14px;
+}
+
+
+
+
+
+
+
 
 #app-cover
 {
@@ -367,6 +426,55 @@ body
         width: 90%;
 
 }
+
+.contacts-container {
+    top: 20px;
+    right: -183px;
+    height: 80px;
+    font-size: 20px;
+}
+
+.pullout {
+    right: 0px;
+}
+
+.contacts {
+    padding: 25px 25px 25px 25px ;
+    border-top-left-radius: 15px !important;
+    border-bottom-left-radius: 15px !important;
+}
+
+.contacts .row span{
+    padding-right: 25px;
+}
+
+.contactbtn {
+    background-color: #333333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.2s ease all;
+}
+
+
+#trigger {
+    padding-right: 10px;
+}
+
+
+#wp {
+    padding: 12px 15px;
+}
+
+#fb {
+    padding: 12px 17px;
+}
+
+#sc {
+    padding: 12px 11px;
+}
+
+
 
 
 #player-controls
