@@ -512,15 +512,28 @@ body
 
 #album-name
 {
-    color: #54576f;
-    font-size: 17px;
-    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 15px;
+}
+
+#track-name
+{
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 12px;
+    
 }
 
 
 #player-track{
     padding: 13px 22px 10px 120px;
 
+}
+
+#player-track.active
+{
+    top: -90px;
 }
 
 
@@ -534,7 +547,7 @@ body
 
 #album-art.active
 {
-    top: -60px;
+    top: -40px;
     box-shadow: 0 0 0 4px #fff7f7, 0 30px 50px -15px #afb7c1;
 }
 
