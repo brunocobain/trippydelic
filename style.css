@@ -39,7 +39,8 @@ body
 
 .contacts {
     padding: 33px 33px 33px 33px ;
-    background-color: #333333;
+    background-color: #131313b3;
+    box-shadow: 0 0px 20px #4078e27a;
     border-top-left-radius: 15px !important;
     border-bottom-left-radius: 15px !important;
 }
@@ -49,7 +50,7 @@ body
 }
 
 .contactbtn {
-    background-color: #333333;
+    background-color: transparent;
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
@@ -139,15 +140,17 @@ body
     right: 15px;
     left: 15px;
     padding: 13px 22px 10px 184px;
-    background-color: #444444;
+    background-color: #1c1c1cb3;
     border-radius: 15px 15px 0 0;
     transition: 0.3s ease top;
     z-index: 1;
+    opacity: 0;
 }
 
 #player-track.active
 {
     top: -92px;
+    opacity: 1;
 }
 
 #album-name
@@ -253,8 +256,8 @@ body
 {
     position: relative;
     height: 100%;
-    background-color: #333333;
-    box-shadow: 0 30px 80px #656565;
+    background-color: #131313b3;
+    box-shadow: 0 30px 80px #4078e27a;
     border-radius: 15px;
     z-index: 2;
 }
@@ -268,7 +271,7 @@ body
     margin-left: 40px;
     transform: rotateZ(0);
     transition: 0.3s ease all;
-    box-shadow: 0 0 0 10px #333333;
+    box-shadow: 0 0 0 10px #3a319d;
     border-radius: 50%;
     overflow: hidden;
 }
@@ -276,7 +279,7 @@ body
 #album-art.active
 {
     top: -60px;
-    box-shadow: 0 0 0 4px #fff7f7, 0 30px 50px -15px #afb7c1;
+    box-shadow: 0 0 0 4px #fff7f7, 0 30px 50px -15px #3961ff;
 }
 
 #album-art:before
@@ -389,7 +392,7 @@ body
     width: 26px;
     height: 26px;
     padding: 25px;
-    background-color: #333333;
+    background-color: transparent;
     border-radius: 6px;
     cursor: pointer;
 }
@@ -449,7 +452,7 @@ body
 }
 
 .contactbtn {
-    background-color: #333333;
+    background-color: transparent;
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
