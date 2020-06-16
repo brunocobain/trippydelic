@@ -1,141 +1,128 @@
-$(function()
-{
-    var playerTrack = $("#player-track"), bgArtwork = $('#bg-artwork'), bgArtworkUrl, albumName = $('#album-name'), trackName = $('#track-name'), albumArt = $('#album-art'), sArea = $('#s-area'), seekBar = $('#seek-bar'), trackTime = $('#track-time'), insTime = $('#ins-time'), sHover = $('#s-hover'), playPauseButton = $("#play-pause-button"),  i = playPauseButton.find('i'), tProgress = $('#current-time'), tTime = $('#track-length'), seekT, seekLoc, seekBarPos, cM, ctMinutes, ctSeconds, curMinutes, curSeconds, durMinutes, durSeconds, playProgress, bTime, nTime = 0, buffInterval = null, tFlag = false, albums = ['Trippydelic','Trippydelic Remixes','Trippydelic Remixes','Home','Proxy (Original Mix)'], trackNames = ['Trippydelic - What is Real','Sturdy Pete - Look Into The Light','Digicult - Every Single Second','Jordan Schor - Home','Martin Garrix - Proxy'], albumArtworks = ['_1','_2','_3','_4','_5'], trackUrl = ['audio/Trippydelic - What is Real.mp3','audio/Sturdy Pete - Look into the light (Trippydelic Remix).mp3','audio/Digicult - Every Single Second (Trippydelic Remix).mp3','https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/4.mp3','https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/5.mp3'], playPreviousTrackButton = $('#play-previous'), playNextTrackButton = $('#play-next'), currIndex = -1;
+$(function () {
+    var playerTrack = $("#player-track"), bgArtwork = $('#bg-artwork'), bgArtworkUrl, albumName = $('#album-name'), trackName = $('#track-name'), albumArt = $('#album-art'), sArea = $('#s-area'), seekBar = $('#seek-bar'), trackTime = $('#track-time'), insTime = $('#ins-time'), sHover = $('#s-hover'), playPauseButton = $("#play-pause-button"), i = playPauseButton.find('i'), tProgress = $('#current-time'), tTime = $('#track-length'), seekT, seekLoc, seekBarPos, cM, ctMinutes, ctSeconds, curMinutes, curSeconds, durMinutes, durSeconds, playProgress, bTime, nTime = 0, buffInterval = null, tFlag = false, albums = ['Trippydelic', 'Trippydelic Remixes', 'Trippydelic Remixes'], trackNames = ['Trippydelic - What is Real', 'Sturdy Pete - Look Into The Light', 'Digicult - Every Single Second'], albumArtworks = ['_1', '_2', '_3'], trackUrl = ['audio/Trippydelic - What is Real.mp3', 'audio/Sturdy Pete - Look into the light (Trippydelic Remix).mp3', 'audio/Digicult - Every Single Second (Trippydelic Remix).mp3'], playPreviousTrackButton = $('#play-previous'), playNextTrackButton = $('#play-next'), currIndex = -1;
 
-    function playPause()
-    {
-        setTimeout(function()
-        {
-            if(audio.paused)
-            {
+    function playPause() {
+        setTimeout(function () {
+            if (audio.paused) {
                 playerTrack.addClass('active');
                 albumArt.addClass('active');
                 checkBuffering();
-                i.attr('class','fas fa-pause');
+                i.attr('class', 'fas fa-pause');
                 audio.play();
             }
-            else
-            {
+            else {
                 playerTrack.removeClass('active');
                 albumArt.removeClass('active');
                 clearInterval(buffInterval);
                 albumArt.removeClass('buffering');
-                i.attr('class','fas fa-play');
+                i.attr('class', 'fas fa-play');
                 audio.pause();
             }
-        },300);
+        }, 300);
     }
 
-    	
-	function showHover(event)
-	{
-		seekBarPos = sArea.offset(); 
-		seekT = event.clientX - seekBarPos.left;
-		seekLoc = audio.duration * (seekT / sArea.outerWidth());
-		
-		sHover.width(seekT);
-		
-		cM = seekLoc / 60;
-		
-		ctMinutes = Math.floor(cM);
-		ctSeconds = Math.floor(seekLoc - ctMinutes * 60);
-		
-		if( (ctMinutes < 0) || (ctSeconds < 0) )
-			return;
-		
-        if( (ctMinutes < 0) || (ctSeconds < 0) )
-			return;
-		
-		if(ctMinutes < 10)
-			ctMinutes = '0'+ctMinutes;
-		if(ctSeconds < 10)
-			ctSeconds = '0'+ctSeconds;
-        
-        if( isNaN(ctMinutes) || isNaN(ctSeconds) )
+
+    function showHover(event) {
+        seekBarPos = sArea.offset();
+        seekT = event.clientX - seekBarPos.left;
+        seekLoc = audio.duration * (seekT / sArea.outerWidth());
+
+        sHover.width(seekT);
+
+        cM = seekLoc / 60;
+
+        ctMinutes = Math.floor(cM);
+        ctSeconds = Math.floor(seekLoc - ctMinutes * 60);
+
+        if ((ctMinutes < 0) || (ctSeconds < 0))
+            return;
+
+        if ((ctMinutes < 0) || (ctSeconds < 0))
+            return;
+
+        if (ctMinutes < 10)
+            ctMinutes = '0' + ctMinutes;
+        if (ctSeconds < 10)
+            ctSeconds = '0' + ctSeconds;
+
+        if (isNaN(ctMinutes) || isNaN(ctSeconds))
             insTime.text('--:--');
         else
-		    insTime.text(ctMinutes+':'+ctSeconds);
-            
-		insTime.css({'left':seekT,'margin-left':'-21px'}).fadeIn(0);
-		
-	}
+            insTime.text(ctMinutes + ':' + ctSeconds);
 
-    function hideHover()
-	{
+        insTime.css({ 'left': seekT, 'margin-left': '-21px' }).fadeIn(0);
+
+    }
+
+    function hideHover() {
         sHover.width(0);
-        insTime.text('00:00').css({'left':'0px','margin-left':'0px'}).fadeOut(0);		
-    }
-    
-    function playFromClickedPos()
-    {
-        audio.currentTime = seekLoc;
-		seekBar.width(seekT);
-		hideHover();
+        insTime.text('00:00').css({ 'left': '0px', 'margin-left': '0px' }).fadeOut(0);
     }
 
-    function updateCurrTime()
-	{
+    function playFromClickedPos() {
+        audio.currentTime = seekLoc;
+        seekBar.width(seekT);
+        hideHover();
+    }
+
+    function updateCurrTime() {
         nTime = new Date();
         nTime = nTime.getTime();
 
-        if( !tFlag )
-        {
+        if (!tFlag) {
             tFlag = true;
             trackTime.addClass('active');
         }
 
-		curMinutes = Math.floor(audio.currentTime / 60);
-		curSeconds = Math.floor(audio.currentTime - curMinutes * 60);
-		
-		durMinutes = Math.floor(audio.duration / 60);
-		durSeconds = Math.floor(audio.duration - durMinutes * 60);
-		
-		playProgress = (audio.currentTime / audio.duration) * 100;
-		
-		if(curMinutes < 10)
-			curMinutes = '0'+curMinutes;
-		if(curSeconds < 10)
-			curSeconds = '0'+curSeconds;
-		
-		if(durMinutes < 10)
-			durMinutes = '0'+durMinutes;
-		if(durSeconds < 10)
-			durSeconds = '0'+durSeconds;
-        
-        if( isNaN(curMinutes) || isNaN(curSeconds) )
+        curMinutes = Math.floor(audio.currentTime / 60);
+        curSeconds = Math.floor(audio.currentTime - curMinutes * 60);
+
+        durMinutes = Math.floor(audio.duration / 60);
+        durSeconds = Math.floor(audio.duration - durMinutes * 60);
+
+        playProgress = (audio.currentTime / audio.duration) * 100;
+
+        if (curMinutes < 10)
+            curMinutes = '0' + curMinutes;
+        if (curSeconds < 10)
+            curSeconds = '0' + curSeconds;
+
+        if (durMinutes < 10)
+            durMinutes = '0' + durMinutes;
+        if (durSeconds < 10)
+            durSeconds = '0' + durSeconds;
+
+        if (isNaN(curMinutes) || isNaN(curSeconds))
             tProgress.text('00:00');
         else
-		    tProgress.text(curMinutes+':'+curSeconds);
-        
-        if( isNaN(durMinutes) || isNaN(durSeconds) )
+            tProgress.text(curMinutes + ':' + curSeconds);
+
+        if (isNaN(durMinutes) || isNaN(durSeconds))
             tTime.text('00:00');
         else
-		    tTime.text(durMinutes+':'+durSeconds);
-        
-        if( isNaN(curMinutes) || isNaN(curSeconds) || isNaN(durMinutes) || isNaN(durSeconds) )
+            tTime.text(durMinutes + ':' + durSeconds);
+
+        if (isNaN(curMinutes) || isNaN(curSeconds) || isNaN(durMinutes) || isNaN(durSeconds))
             trackTime.removeClass('active');
         else
             trackTime.addClass('active');
 
-        
-		seekBar.width(playProgress+'%');
-		
-		if( playProgress == 100 )
-		{
-			i.attr('class','fa fa-play');
-			seekBar.width(0);
+
+        seekBar.width(playProgress + '%');
+
+        if (playProgress == 100) {
+            i.attr('class', 'fa fa-play');
+            seekBar.width(0);
             tProgress.text('00:00');
             albumArt.removeClass('buffering').removeClass('active');
             clearInterval(buffInterval);
-		}
+        }
     }
-    
-    function checkBuffering()
-    {
+
+    function checkBuffering() {
         clearInterval(buffInterval);
-        buffInterval = setInterval(function()
-        { 
-            if( (nTime == 0) || (bTime - nTime) > 1000  )
+        buffInterval = setInterval(function () {
+            if ((nTime == 0) || (bTime - nTime) > 1000)
                 albumArt.addClass('buffering');
             else
                 albumArt.removeClass('buffering');
@@ -143,24 +130,21 @@ $(function()
             bTime = new Date();
             bTime = bTime.getTime();
 
-        },100);
+        }, 100);
     }
 
-    function selectTrack(flag)
-    {
-        if( flag == 0 || flag == 1 )
+    function selectTrack(flag) {
+        if (flag == 0 || flag == 1)
             ++currIndex;
         else
             --currIndex;
 
-        if( (currIndex > -1) && (currIndex < albumArtworks.length) )
-        {
-            if( flag == 0 )
-                i.attr('class','fa fa-play');
-            else
-            {
+        if ((currIndex > -1) && (currIndex < albumArtworks.length)) {
+            if (flag == 0)
+                i.attr('class', 'fa fa-play');
+            else {
                 albumArt.removeClass('buffering');
-                i.attr('class','fa fa-pause');
+                i.attr('class', 'fa fa-pause');
             }
 
             seekBar.width(0);
@@ -173,17 +157,16 @@ $(function()
             currArtwork = albumArtworks[currIndex];
 
             audio.src = trackUrl[currIndex];
-            
+
             nTime = 0;
             bTime = new Date();
             bTime = bTime.getTime();
 
-            if(flag != 0)
-            {
+            if (flag != 0) {
                 audio.play();
                 playerTrack.addClass('active');
                 albumArt.addClass('active');
-            
+
                 clearInterval(buffInterval);
                 checkBuffering();
             }
@@ -191,42 +174,40 @@ $(function()
             albumName.text(currAlbum);
             trackName.text(currTrackName);
             albumArt.find('img.active').removeClass('active');
-            $('#'+currArtwork).addClass('active');
-            
-            bgArtworkUrl = $('#'+currArtwork).attr('src');
+            $('#' + currArtwork).addClass('active');
 
-            bgArtwork.css({'background-image':'url('+bgArtworkUrl+')'});
+            bgArtworkUrl = $('#' + currArtwork).attr('src');
+
+            bgArtwork.css({ 'background-image': 'url(' + bgArtworkUrl + ')' });
         }
-        else
-        {
-            if( flag == 0 || flag == 1 )
+        else {
+            if (flag == 0 || flag == 1)
                 --currIndex;
             else
                 ++currIndex;
         }
     }
 
-    function initPlayer()
-	{	
+    function initPlayer() {
         audio = new Audio();
 
-		selectTrack(0);
-		
-		audio.loop = false;
-		
-		playPauseButton.on('click',playPause);
-		
-		sArea.mousemove(function(event){ showHover(event); });
-		
-        sArea.mouseout(hideHover);
-        
-        sArea.on('click',playFromClickedPos);
-		
-        $(audio).on('timeupdate',updateCurrTime);
+        selectTrack(0);
 
-        playPreviousTrackButton.on('click',function(){ selectTrack(-1);} );
-        playNextTrackButton.on('click',function(){ selectTrack(1);});
-	}
-    
-	initPlayer();
+        audio.loop = false;
+
+        playPauseButton.on('click', playPause);
+
+        sArea.mousemove(function (event) { showHover(event); });
+
+        sArea.mouseout(hideHover);
+
+        sArea.on('click', playFromClickedPos);
+
+        $(audio).on('timeupdate', updateCurrTime);
+
+        playPreviousTrackButton.on('click', function () { selectTrack(-1); });
+        playNextTrackButton.on('click', function () { selectTrack(1); });
+    }
+
+    initPlayer();
 });
